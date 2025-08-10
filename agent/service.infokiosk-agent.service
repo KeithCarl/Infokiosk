@@ -1,1 +1,17 @@
+[Unit]
+Description=Infokiosk Agent (API + Rotator)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=pi
+EnvironmentFile=/etc/infokiosk/agent.env
+WorkingDirectory=/opt/infokiosk/agent
+ExecStart=/usr/bin/python3 -m uvicorn app:APP --host ${AGENT_BIND:-0.0.0.0} --port ${AGENT_PORT:-8001}
+Restart=always
+RestartSec=2
+
+[Install]
+WantedBy=multi-user.target
 
