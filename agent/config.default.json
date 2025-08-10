@@ -1,1 +1,7 @@
+{
+  "name": "Infopoint1",
+  "playlist": [
+    { "url": "https://www.raspberrypi.com", "timeout": 30 }
+  ]
+}
 
