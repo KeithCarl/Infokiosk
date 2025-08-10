@@ -1,1 +1,17 @@
+[Unit]
+Description=Infokiosk Chromium (Wayland Cage)
+After=graphical-session.target network-online.target infokiosk-agent.service
+Wants=network-online.target
+
+[Service]
+Type=simple
+ExecStart=/opt/infokiosk/kiosk/chromium-kiosk.sh
+Restart=always
+RestartSec=2
+Environment=XDG_RUNTIME_DIR=/run/user/%U
+Environment=MOZ_ENABLE_WAYLAND=1
+Environment=XDG_SESSION_TYPE=wayland
+
+[Install]
+WantedBy=default.target
 
