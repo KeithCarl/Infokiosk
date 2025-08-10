@@ -1,1 +1,6 @@
+#!/usr/bin/env bash
+set -euo pipefail
+SUDO_FILE="/etc/sudoers.d/infokiosk-reboot"
+echo 'pi ALL=NOPASSWD: /sbin/reboot' | sudo tee "$SUDO_FILE" >/dev/null
+sudo chmod 440 "$SUDO_FILE"
 
