@@ -1,1 +1,19 @@
+:root { --bg:#0b0f14; --card:#111826; --fg:#dbe5ff; --muted:#9fb0d0; --ok:#29c17e; --warn:#ffb454; }
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:14px/1.4 system-ui,Segoe UI,Roboto,Arial,sans-serif}
+.wrap{max-width:1000px;margin:32px auto;padding:0 16px}
+h1,h2{margin:0 0 12px}
+small{color:var(--muted)}
+.card, .playlist, .kiosk{background:var(--card);border-radius:16px;padding:16px;margin:16px 0;box-shadow:0 10px 24px rgba(0,0,0,.25)}
+label{display:block;margin:8px 0}
+input{width:100%;padding:10px;border-radius:8px;border:1px solid #2a384f;background:#0f1623;color:var(--fg)}
+button{cursor:pointer;border:0;border-radius:10px;padding:10px 14px;background:#24344d;color:var(--fg)}
+button.primary{background:#37578a}
+.top{display:flex;align-items:center;gap:12px;justify-content:space-between}
+.ok{color:var(--ok)} .warn{color:var(--warn)}
+table{width:100%;border-collapse:collapse;margin-top:10px}
+th,td{border-bottom:1px solid #28354a;padding:8px;text-align:left}
+td.idx{width:40px;color:var(--muted)}
+.actions{display:flex;gap:8px;justify-content:flex-end;margin-top:10px}
+.controls{margin:8px 0}
 
