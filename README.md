@@ -36,40 +36,28 @@ sudo apt update && sudo apt install -y git
 git clone https://github.com/<yourusername>/infokiosk.git
 cd infokiosk
 
-Admin Pi (Infopoint1)
+ ## Admin Pi (Infopoint1)
 
-bash
-Copy
-Edit
 sudo bash ./install.sh --role admin --name Infopoint1 \
   --peers Infopoint1.local,InfoPoint2.local \
   --admin-password 'changeme'
-Agent Pi (Infopoint2)
 
-bash
-Copy
-Edit
+ ## Agent Pi (Infopoint2)
+
 sudo bash ./install.sh --role agent --name InfoPoint2
-Reboot both Pis after install:
+ ## Reboot both Pis after install:
 
-bash
-Copy
-Edit
 sudo reboot
-Usage
+
+## Usage
 Admin UI: http://Infopoint1.local:8000
-
 Login with the password you set in --admin-password
-
 Add/remove URLs, set timeouts, reboot kiosks
-
 Kiosks auto-boot into Chromium showing the playlist
 
-Security Notes
+ ## Security Notes
 Admin password and agent token are stored in /etc/infokiosk/*.env
-
 Change them if you deploy outside a trusted LAN
-
 For public deployment, use HTTPS and firewall rules
 
 License
