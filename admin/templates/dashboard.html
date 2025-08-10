@@ -1,1 +1,85 @@
+<!doctype html>
+<html><head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Infokiosk Admin</title>
+<link rel="stylesheet" href="/static/app.css"/>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <h1>Infokiosk Admin</h1>
+    <form method="post" action="/logout"><button>Logout</button></form>
+  </header>
+
+  {% for row in rows %}
+  <section class="kiosk">
+    <h2>{{ row.name }} <small>({{ row.host }})</small></h2>
+    {% if not row.health.ok %}
+      <p class="warn">Offline or unreachable.</p>
+    {% else %}
+      <p class="ok">Online – {{ row.health.count }} items configured.</p>
+    {% endif %}
+
+    <div class="controls">
+      <button onclick="reboot('{{ row.name }}')">Reboot</button>
+    </div>
+
+    <div class="playlist">
+      <table>
+        <thead><tr><th>#</th><th>URL</th><th>Timeout (s)</th><th></th></tr></thead>
+        <tbody id="tbody-{{ row.name }}">
+          {% for it in row.playlist %}
+            <tr>
+              <td class="idx"></td>
+              <td><input value="{{ it.url }}"></td>
+              <td><input type="number" min="5" value="{{ it.timeout }}"></td>
+              <td><button onclick="delRow(this)">✕</button></td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      <div class="actions">
+        <button onclick="addRow('{{ row.name }}')">+ Add URL</button>
+        <button class="primary" onclick="save('{{ row.name }}')">Save</button>
+      </div>
+    </div>
+  </section>
+  {% endfor %}
+</div>
+
+<script>
+function delRow(btn){ btn.closest('tr').remove(); reindex(); }
+function addRow(name){
+  const tb = document.getElementById('tbody-'+name);
+  const tr = document.createElement('tr');
+  tr.innerHTML = `<td class="idx"></td>
+    <td><input placeholder="https://example.com"></td>
+    <td><input type="number" min="5" value="30"></td>
+    <td><button onclick="delRow(this)">✕</button></td>`;
+  tb.appendChild(tr);
+  reindex();
+}
+function reindex(){
+  document.querySelectorAll('td.idx').forEach((td,i)=> td.textContent = i+1);
+}
+async function save(name){
+  const rows = [...document.querySelectorAll('#tbody-'+name+' tr')];
+  const playlist = rows.map(r => ({
+    url: r.querySelector('td:nth-child(2) input').value.trim(),
+    timeout: Number(r.querySelector('td:nth-child(3) input').value || 30)
+  })).filter(x => x.url);
+  const r = await fetch(`/api/kiosk/${encodeURIComponent(name)}/playlist`, {
+    method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify(playlist)
+  });
+  alert(r.ok ? 'Saved.' : 'Failed.');
+}
+async function reboot(name){
+  if(!confirm(`Reboot ${name}?`)) return;
+  const r = await fetch(`/api/kiosk/${encodeURIComponent(name)}/reboot`, {method:'POST'});
+  alert(r.ok ? 'Rebooting…' : 'Failed.');
+}
+reindex();
+</script>
+</body></html>
 
