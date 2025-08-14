@@ -1,8 +1,3 @@
-diff --git a/admin/app.py b/admin/app.py
-index fba88b3c2a4e153708d2d826e11cb0c84588bd3b..56fda954ca6406b888a617f7918c3d5293b194f5 100644
---- a/admin/app.py
-+++ b/admin/app.py
-@@ -1,50 +1,50 @@
  import os, json, requests
  from pathlib import Path
  from fastapi import FastAPI, Request, Depends, Form, HTTPException
