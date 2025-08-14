@@ -98,10 +98,11 @@ def reboot(request: Request):
 def rotator():
     return HTMLResponse(ROTATOR.read_text())
 
-# static mount (optional future assets)
+# static mount (only if assets are present)
 static_dir = Path("/var/lib/infokiosk/static")
 static_dir.mkdir(parents=True, exist_ok=True)
-APP.mount("/static", StaticFiles(directory=str(static_dir)), name="static")
+if any(static_dir.iterdir()):
+    APP.mount("/static", StaticFiles(directory=str(static_dir)), name="static")
 
 if __name__ == "__main__":
     import uvicorn
